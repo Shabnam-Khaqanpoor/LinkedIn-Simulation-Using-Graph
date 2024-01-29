@@ -10,7 +10,6 @@ class User {
     LinkedList<Integer> connections;
     LinkedList<Integer> priority;        //for calculating score of people
 
-    //todo: add maxHeap for scores
 
     public User(Map<String, String> generalInfo, Map<String, String> specializedInfo, LinkedList<String> skills, LinkedList<Integer> connections,LinkedList<Integer> priority) {
         this.generalInfo = generalInfo;
