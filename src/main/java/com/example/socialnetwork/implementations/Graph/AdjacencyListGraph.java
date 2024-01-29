@@ -1,4 +1,4 @@
-package com.example.socialnetwork.implementations;
+package com.example.socialnetwork.implementations.Graph;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
