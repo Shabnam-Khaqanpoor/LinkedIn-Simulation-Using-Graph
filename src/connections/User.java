@@ -4,6 +4,7 @@ import implementations.Heap.MaxHeapPriorityQueue;
 
 import java.io.File;
 import java.security.Key;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ class User {
     LinkedList<Integer> connections;
     LinkedList<Integer> priority;        //for calculating score of people
 
-    MaxHeapPriorityQueue<Integer, Integer> suggestions;
+    MaxHeapPriorityQueue<Integer, User> suggestions;
     //key:ID  value:score
 
 
@@ -24,7 +25,8 @@ class User {
         this.skills = skills;
         this.connections = connections;
         this.priority = priority;
-//        this.suggestions=new MaxHeapPriorityQueue<>();
+//        this.suggestions=new MaxHeapPriorityQueue<Integer,User>();
+
 
         for (User user:users){
             findSuggestions(user);
@@ -72,10 +74,10 @@ class User {
 
     void findSuggestions(User user) {
         int score= generalCalculate(user)+specializedCalculate(user)+skillsCalculate(user)+connectionsCalculate(user);   //sum all scores
-        this.suggestions.insert(Integer.parseInt(user.generalInfo.get("ID")),score);
+        this.suggestions.insert(score,user);
     }
 
-    public MaxHeapPriorityQueue<Integer, Integer> getSuggestions() {
+    public MaxHeapPriorityQueue<Integer, User> getSuggestions() {
         return suggestions;
     }
 
