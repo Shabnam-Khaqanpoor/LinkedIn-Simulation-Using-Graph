@@ -10,11 +10,11 @@ class User {
     private UserSkills skills;
     private Connections connections;
     private UserPriorities priority;        //for calculating score of people
-    private MaxHeapPriorityQueue<Integer, User> suggestions;
+    private MaxHeapPriorityQueue<Double, User> suggestions;
     //key:ID  value:score
 
 
-    public User(GeneralInfo generalInfo, UserSpecializedInfo specializedInfo, UserSkills skills, Connections connections, UserPriorities priority, MaxHeapPriorityQueue<Integer, User> suggestions, LinkedList<User> users) {
+    public User(GeneralInfo generalInfo, UserSpecializedInfo specializedInfo, UserSkills skills, Connections connections, UserPriorities priority, MaxHeapPriorityQueue<Double, User> suggestions, LinkedList<User> users) {
         this.generalInfo = generalInfo;
         this.specializedInfo = specializedInfo;
         this.skills = skills;
@@ -28,16 +28,16 @@ class User {
         }
     }
 
-    int generalCalculate(User user) {
+    double generalCalculate(User user) {
         int counter = 0;
         //calculate generalInfo;
         if (this.generalInfo.getLastname().equals(user.generalInfo.getLastname())) counter++;
         if (this.generalInfo.getBirth().getYear() == user.generalInfo.getBirth().getYear()) counter++;
 
-        return (this.priority.getGeneralPriority() * counter);
+        return (Math.pow(100,this.priority.getGeneralPriority()) * counter);
     }
 
-    int specializedCalculate(User user) {
+    double specializedCalculate(User user) {
         int counter = 0;
         //calculate specializedInfo;
 
@@ -45,20 +45,20 @@ class User {
         if (this.specializedInfo.getUniversity().equals(user.specializedInfo.getUniversity())) counter++;
         if (this.specializedInfo.getWorkPlace().equals(user.specializedInfo.getWorkPlace())) counter++;
 
-        return (this.priority.getSpecializedPriority() * counter);
+        return (Math.pow(100,this.priority.getSpecializedPriority())* counter);
     }
 
-    int skillsCalculate(User user) {
+    double skillsCalculate(User user) {
         int counter = 0;
         //calculate skills;
         for (String skill : this.skills.getSkills()) {
             if (user.skills.getSkills().contains(skill)) counter++;
         }
 
-        return (this.priority.getSkillPriority() * counter);
+        return (Math.pow(100,this.priority.getSkillPriority()) * counter);
     }
 
-    int connectionsCalculate(User user) {
+    double connectionsCalculate(User user) {
         int counter = 0;
         //calculate connections;
         for (int connection : this.connections.getUsers()) {
@@ -66,11 +66,11 @@ class User {
                 counter++;
             }
         }
-        return (this.priority.getConnectionPriority() * counter);
+        return (Math.pow(100,this.priority.getConnectionPriority())* counter);
     }
 
     void findSuggestions(User user) {
-        int score = generalCalculate(user) + specializedCalculate(user) + skillsCalculate(user) + connectionsCalculate(user);   //sum all scores
+        double score = generalCalculate(user) + specializedCalculate(user) + skillsCalculate(user) + connectionsCalculate(user);   //sum all scores
         this.suggestions.insert(score, user);
     }
 
@@ -114,11 +114,11 @@ class User {
         this.priority = priority;
     }
 
-    public MaxHeapPriorityQueue<Integer, User> getSuggestions() {
+    public MaxHeapPriorityQueue<Double, User> getSuggestions() {
         return suggestions;
     }
 
-    public void setSuggestions(MaxHeapPriorityQueue<Integer, User> suggestions) {
+    public void setSuggestions(MaxHeapPriorityQueue<Double, User> suggestions) {
         this.suggestions = suggestions;
     }
 }

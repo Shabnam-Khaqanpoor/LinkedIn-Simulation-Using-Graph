@@ -2,12 +2,12 @@ package usersinfo;
 
 
 public class UserPriorities {
-    private int generalPriority = 1;
-    private int specializedPriority = 3;
-    private int skillPriority = 4;
-    private int connectionPriority = 2;
+    private double generalPriority = 1;
+    private double specializedPriority = 3;
+    private double skillPriority = 4;
+    private double connectionPriority = 2;
 
-    public UserPriorities(int generalPriority, int specializedPriority, int skillPriority, int connectionPriority) {
+    public UserPriorities(double generalPriority, double specializedPriority, double skillPriority, double connectionPriority) {
         this.generalPriority = generalPriority;
         this.specializedPriority = specializedPriority;
         this.skillPriority = skillPriority;
@@ -33,19 +33,19 @@ public class UserPriorities {
         this.connectionPriority = connectionPriority;
     }
 
-    public int getGeneralPriority() {
+    public double getGeneralPriority() {
         return generalPriority;
     }
 
-    public int getSpecializedPriority() {
+    public double getSpecializedPriority() {
         return specializedPriority;
     }
 
-    public int getSkillPriority() {
+    public double getSkillPriority() {
         return skillPriority;
     }
 
-    public int getConnectionPriority() {
+    public double getConnectionPriority() {
         return connectionPriority;
     }
 }
