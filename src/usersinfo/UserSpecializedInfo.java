@@ -34,4 +34,13 @@ public class UserSpecializedInfo {
     public void setWorkPlace(String workPlace) {
         this.workPlace = workPlace;
     }
+
+    @Override
+    public String toString() {
+        return "UserSpecializedInfo{" +
+                "university='" + university + '\'' +
+                ", fieldOfStudy='" + fieldOfStudy + '\'' +
+                ", workPlace='" + workPlace + '\'' +
+                '}';
+    }
 }

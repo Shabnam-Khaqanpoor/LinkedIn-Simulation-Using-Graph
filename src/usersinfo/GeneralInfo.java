@@ -1,18 +1,46 @@
 package usersinfo;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class GeneralInfo {
     private int ID;
     private String name;
     private String lastname;
-    private Date birth;
+    private LocalDate birth;
 
-    public GeneralInfo(int ID, String name, String lastname, Date birth) {
+    public GeneralInfo(int ID, String name, String lastname, String birth) {
         this.ID = ID;
         this.name = name;
         this.lastname = lastname;
-        this.birth = birth;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+
+        //agr toolesh 10 bashe yani kamle formatesh kamele
+        if (birth.length() == 10) {
+            formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        }
+
+        else{
+            //hala agar 9 taii bashe 2 halat dare ya mahesh 1 raghame ya rozesh
+            if (birth.length()==9)
+            {
+                if (birth.charAt(6)=='/')
+                {
+                    formatter = DateTimeFormatter.ofPattern("yyyy/M/dd");
+                }
+                else
+                {
+                    formatter = DateTimeFormatter.ofPattern("yyyy/MM/d");
+                }
+            }
+            //kolan kame khoda zadatesh
+            else
+            {
+                formatter = DateTimeFormatter.ofPattern("yyyy/M/d");
+            }
+        }
+        LocalDate date = LocalDate.parse(birth, formatter);
+        this.birth = date;
     }
 
     public void setID(int ID) {
@@ -27,7 +55,7 @@ public class GeneralInfo {
         this.lastname = lastname;
     }
 
-    public void setBirth(Date birth) {
+    public void setBirth(LocalDate birth) {
         this.birth = birth;
     }
 
@@ -43,7 +71,17 @@ public class GeneralInfo {
         return lastname;
     }
 
-    public Date getBirth() {
+    public LocalDate getBirth() {
         return birth;
+    }
+
+    @Override
+    public String toString() {
+        return "GeneralInfo{" +
+                "ID=" + ID +
+                ", name='" + name + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", birth=" + birth +
+                '}';
     }
 }

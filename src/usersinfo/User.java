@@ -2,9 +2,10 @@ package usersinfo;
 
 import implementations.Heap.MaxHeapPriorityQueue;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 
-class User {
+public class User {
     private GeneralInfo generalInfo;
     private UserSpecializedInfo specializedInfo;
     private UserSkills skills;
@@ -26,6 +27,20 @@ class User {
             findSuggestions(user);
             if (this.suggestions.size() == 20) break;
         }
+    }
+
+    public User(GeneralInfo generalInfo, UserSpecializedInfo specializedInfo, UserSkills skills, Connections connections, UserPriorities priority) {
+        this.generalInfo = generalInfo;
+        this.specializedInfo = specializedInfo;
+        this.skills = skills;
+        this.connections = connections;
+        this.priority = priority;
+        this.suggestions = new MaxHeapPriorityQueue<>(new Comparator<Double>() {
+            @Override
+            public int compare(Double o1, Double o2) {
+                return o1.compareTo(o2);
+            }
+        });
     }
 
     double generalCalculate(User user) {
@@ -120,5 +135,16 @@ class User {
 
     public void setSuggestions(MaxHeapPriorityQueue<Double, User> suggestions) {
         this.suggestions = suggestions;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "generalInfo=" + generalInfo.toString() +
+                ", specializedInfo=" + specializedInfo.toString() +
+                ", skills=" + skills.toString() +
+                ", connections=" + connections +
+                ", priority=" + priority.toString() +
+                '}';
     }
 }

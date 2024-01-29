@@ -16,4 +16,17 @@ public class UserSkills {
     public void setSkills(LinkedList<String> skills) {
         this.skills = skills;
     }
+
+    @Override
+    public String toString() {
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("userSkills{");
+                for (String skill : skills)
+                {
+                    sb.append(skill).append(",");
+                }
+                sb.append("}");
+                return sb.toString();
+    }
 }
