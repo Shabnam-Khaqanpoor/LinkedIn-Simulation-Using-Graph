@@ -3,7 +3,7 @@ package implementations.Heap;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-class MaxHeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
+public class MaxHeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
 
     /** primary collection of priority queue entries */
     protected ArrayList<Entry<K,V>> heap=new ArrayList<>();
