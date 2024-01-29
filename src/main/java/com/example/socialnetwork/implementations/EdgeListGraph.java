@@ -10,33 +10,33 @@ public class EdgeListGraph<V, E> implements Graph<V, E> {
 
     // Constructor to initialize the graph
     public EdgeListGraph() {
-        vertices = new ArrayList<>();
-        edges = new ArrayList<>();
+       this.vertices = new ArrayList<>();
+       this.edges = new ArrayList<>();
     }
 
     // Returns the number of vertices in the graph
     @Override
     public int numVertices() {
-        return vertices.size();
+        return this.vertices.size();
     }
 
     // Returns a list of all vertices in the graph
     @Override
     public List<V> vertices() {
-        return new ArrayList<>(vertices);
+        return new ArrayList<>(this.vertices);
     }
 
     // Returns the number of edges in the graph
     @Override
     public int numEdges() {
-        return edges.size();
+        return this.edges.size();
     }
 
     // Returns a list of all edges in the graph
     @Override
     public List<E> edges() {
         List<E> edgeValues = new ArrayList<>();
-        for (Edge<V, E> edge : edges) {
+        for (Edge<V, E> edge : this.edges) {
             edgeValues.add(edge.value);
         }
         return edgeValues;
@@ -45,7 +45,7 @@ public class EdgeListGraph<V, E> implements Graph<V, E> {
     // Returns the edge object associated with vertices u and v
     @Override
     public E getEdge(V u, V v) {
-        for (Edge<V, E> edge : edges) {
+        for (Edge<V, E> edge : this.edges) {
             if (edge.source.equals(u) && edge.destination.equals(v)) {
                 return edge.value;
             }
@@ -56,7 +56,7 @@ public class EdgeListGraph<V, E> implements Graph<V, E> {
     // Returns a list of the two endpoint vertices of edge e
     @Override
     public List<V> endVertices(E e) {
-        for (Edge<V, E> edge : edges) {
+        for (Edge<V, E> edge : this.edges) {
             if (edge.value.equals(e)) {
                 return List.of(edge.source, edge.destination);
             }
@@ -82,7 +82,7 @@ public class EdgeListGraph<V, E> implements Graph<V, E> {
     @Override
     public int outDegree(V v) {
         int outDegree = 0;
-        for (Edge<V, E> edge : edges) {
+        for (Edge<V, E> edge : this.edges) {
             if (edge.source.equals(v)) {
                 outDegree++;
             }
@@ -94,7 +94,7 @@ public class EdgeListGraph<V, E> implements Graph<V, E> {
     @Override
     public int inDegree(V v) {
         int inDegree = 0;
-        for (Edge<V, E> edge : edges) {
+        for (Edge<V, E> edge : this.edges) {
             if (edge.destination.equals(v)) {
                 inDegree++;
             }
@@ -106,7 +106,7 @@ public class EdgeListGraph<V, E> implements Graph<V, E> {
     @Override
     public List<E> outgoingEdges(V v) {
         List<E> outgoingEdges = new ArrayList<>();
-        for (Edge<V, E> edge : edges) {
+        for (Edge<V, E> edge : this.edges) {
             if (edge.source.equals(v)) {
                 outgoingEdges.add(edge.value);
             }
@@ -118,7 +118,7 @@ public class EdgeListGraph<V, E> implements Graph<V, E> {
     @Override
     public List<E> incomingEdges(V v) {
         List<E> incomingEdges = new ArrayList<>();
-        for (Edge<V, E> edge : edges) {
+        for (Edge<V, E> edge : this.edges) {
             if (edge.destination.equals(v)) {
                 incomingEdges.add(edge.value);
             }
@@ -129,24 +129,24 @@ public class EdgeListGraph<V, E> implements Graph<V, E> {
     // Inserts a new vertex with element x into the graph
     @Override
     public void insertVertex(V x) {
-        if (!vertices.contains(x)) {
-            vertices.add(x);
+        if (!this.vertices.contains(x)) {
+            this.vertices.add(x);
         }
     }
 
     // Inserts a new edge with element x connecting vertices u and v into the graph
     @Override
     public void insertEdge(V u, V v, E x) {
-        if (vertices.contains(u) && vertices.contains(v)) {
-            edges.add(new Edge<>(u, v, x));
+        if (this.vertices.contains(u) && this.vertices.contains(v)) {
+            this.edges.add(new Edge<>(u, v, x));
         }
     }
 
     // Removes vertex v from the graph
     @Override
     public void removeVertex(V v) {
-        vertices.remove(v);
-        edges.removeIf(edge -> edge.source.equals(v) || edge.destination.equals(v));
+        this.vertices.remove(v);
+        this.edges.removeIf(edge -> edge.source.equals(v) || edge.destination.equals(v));
     }
 
     // Removes edge e from the graph

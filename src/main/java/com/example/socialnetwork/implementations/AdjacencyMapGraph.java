@@ -1,9 +1,6 @@
 package com.example.socialnetwork.implementations;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 // Implementation of a graph using an adjacency map
 public class AdjacencyMapGraph<V, E> implements Graph<V, E> {

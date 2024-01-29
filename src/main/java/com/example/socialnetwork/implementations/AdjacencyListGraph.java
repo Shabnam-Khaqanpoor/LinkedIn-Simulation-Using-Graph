@@ -14,41 +14,41 @@ public class AdjacencyListGraph<V, E> implements Graph<V, E> {
 
     // Constructor initializes the adjacencyList and incidentVertices maps
     public AdjacencyListGraph() {
-        adjacencyList = new HashMap<>();
-        incidentVertices = new HashMap<>();
+        this.adjacencyList = new HashMap<>();
+        this.incidentVertices = new HashMap<>();
     }
 
     // Returns the number of vertices in the graph
     @Override
     public int numVertices() {
-        return adjacencyList.size();
+        return this.adjacencyList.size();
     }
 
     // Returns a list of all vertices in the graph
     @Override
     public List<V> vertices() {
-        return new ArrayList<>(adjacencyList.keySet());
+        return new ArrayList<>(this.adjacencyList.keySet());
     }
 
     // Returns the number of edges in the graph
     @Override
     public int numEdges() {
-        return incidentVertices.size();
+        return this.incidentVertices.size();
     }
 
     // Returns a list of all edges in the graph
     @Override
     public List<E> edges() {
-        return new ArrayList<>(incidentVertices.keySet());
+        return new ArrayList<>(this.incidentVertices.keySet());
     }
 
     // Returns the edge between vertices u and v, if it exists;if not it returns null
     @Override
     public E getEdge(V u, V v) {
-        List<E> edges = adjacencyList.get(u);
+        List<E> edges = this.adjacencyList.get(u);
         if (edges != null) {
             for (E edge : edges) {
-                Pair<V> endVertices = incidentVertices.get(edge);
+                Pair<V> endVertices = this.incidentVertices.get(edge);
                 if (endVertices != null && (endVertices.origin.equals(v) || endVertices.destination.equals(v))) {
                     return edge;
                 }
@@ -60,7 +60,7 @@ public class AdjacencyListGraph<V, E> implements Graph<V, E> {
     // Returns a list of the two vertices associated with edge e; else returns null
     @Override
     public List<V> endVertices(E e) {
-        Pair<V> endVertices = incidentVertices.get(e);
+        Pair<V> endVertices = this.incidentVertices.get(e);
         if (endVertices != null) return List.of(endVertices.origin, endVertices.destination);
         return null;
     }
@@ -68,7 +68,7 @@ public class AdjacencyListGraph<V, E> implements Graph<V, E> {
     // Returns the vertex opposite to v along edge e; if it doesn't have opposite returns null
     @Override
     public V opposite(V v, E e) {
-        Pair<V> endVertices = incidentVertices.get(e);
+        Pair<V> endVertices = this.incidentVertices.get(e);
         if (endVertices != null) {
             if (endVertices.origin.equals(v)) {
                 return endVertices.destination;
@@ -82,7 +82,7 @@ public class AdjacencyListGraph<V, E> implements Graph<V, E> {
     // Returns the out-degree of vertex v; if edge isn't
     @Override
     public int outDegree(V v) {
-        List<E> edges = adjacencyList.get(v);
+        List<E> edges = this.adjacencyList.get(v);
         if (edges != null) return edges.size();
         return 0;
     }
@@ -91,7 +91,7 @@ public class AdjacencyListGraph<V, E> implements Graph<V, E> {
     @Override
     public int inDegree(V v) {
         int inDegree = 0;
-        for (Pair<V> endVertices : incidentVertices.values()) {
+        for (Pair<V> endVertices : this.incidentVertices.values()) {
             if (endVertices.origin.equals(v) || endVertices.destination.equals(v)) {
                 inDegree++;
             }
@@ -102,14 +102,14 @@ public class AdjacencyListGraph<V, E> implements Graph<V, E> {
     // Returns a list of outgoing edges from vertex v
     @Override
     public List<E> outgoingEdges(V v) {
-        return adjacencyList.get(v);
+        return this.adjacencyList.get(v);
     }
 
     // Returns a list of incoming edges to vertex v
     @Override
     public List<E> incomingEdges(V v) {
         List<E> incomingEdges = new ArrayList<>();
-        for (Map.Entry<E, Pair<V>> entry : incidentVertices.entrySet()) {
+        for (Map.Entry<E, Pair<V>> entry : this.incidentVertices.entrySet()) {
             if (entry.getValue().origin.equals(v) || entry.getValue().destination.equals(v)) {
                 incomingEdges.add(entry.getKey());
             }
@@ -120,32 +120,32 @@ public class AdjacencyListGraph<V, E> implements Graph<V, E> {
     // Inserts a new vertex x into the graph
     @Override
     public void insertVertex(V x) {
-        if (!adjacencyList.containsKey(x)) {
-            adjacencyList.put(x, new ArrayList<>());
+        if (!this.adjacencyList.containsKey(x)) {
+            this.adjacencyList.put(x, new ArrayList<>());
         }
     }
 
     // Inserts a new edge x between vertices u and v
     @Override
     public void insertEdge(V u, V v, E x) {
-        if (adjacencyList.containsKey(u) && adjacencyList.containsKey(v)) {
-            List<E> edgesU = adjacencyList.get(u);
-            List<E> edgesV = adjacencyList.get(v);
+        if (this.adjacencyList.containsKey(u) && this.adjacencyList.containsKey(v)) {
+            List<E> edgesU = this.adjacencyList.get(u);
+            List<E> edgesV = this.adjacencyList.get(v);
 
             edgesU.add(x);
             edgesV.add(x);
 
-            incidentVertices.put(x, new Pair<>(u, v));
+            this.incidentVertices.put(x, new Pair<>(u, v));
         }
     }
 
     // Removes vertex v and its incident edges from the graph
     @Override
     public void removeVertex(V v) {
-        if (adjacencyList.containsKey(v)) {
-            List<E> edgesToRemove = adjacencyList.get(v);
+        if (this.adjacencyList.containsKey(v)) {
+            List<E> edgesToRemove = this.adjacencyList.get(v);
             for (E edge : edgesToRemove) {
-                Pair<V> endVertices = incidentVertices.get(edge);
+                Pair<V> endVertices = this.incidentVertices.get(edge);
                 if (endVertices != null) {
                     if (endVertices.origin.equals(v)) {
                         endVertices.origin = null;
@@ -153,7 +153,7 @@ public class AdjacencyListGraph<V, E> implements Graph<V, E> {
                         endVertices.destination = null;
                     }
                     if (endVertices.origin == null && endVertices.destination == null) {
-                        incidentVertices.remove(edge);
+                        this.incidentVertices.remove(edge);
                     }
                 }
             }
@@ -164,8 +164,8 @@ public class AdjacencyListGraph<V, E> implements Graph<V, E> {
     // Removes edge e from the graph
     @Override
     public void removeEdge(E e) {
-        incidentVertices.remove(e);
-        for (List<E> edges : adjacencyList.values()) {
+        this.incidentVertices.remove(e);
+        for (List<E> edges : this.adjacencyList.values()) {
             edges.remove(e);
         }
     }
