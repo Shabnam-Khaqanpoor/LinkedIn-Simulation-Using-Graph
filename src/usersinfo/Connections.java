@@ -16,4 +16,5 @@ public class Connections {
     public void setUsers(LinkedList<Integer> users) {
         this.users = users;
     }
+
 }
