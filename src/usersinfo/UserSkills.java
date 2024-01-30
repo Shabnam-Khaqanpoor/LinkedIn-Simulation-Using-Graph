@@ -21,12 +21,10 @@ public class UserSkills {
     public String toString() {
 
         StringBuilder sb = new StringBuilder();
-        sb.append("userSkills{");
                 for (String skill : skills)
                 {
-                    sb.append(skill).append(",");
+                    sb.append(skill).append("\n");
                 }
-                sb.append("}");
                 return sb.toString();
     }
 }

@@ -48,4 +48,14 @@ public class UserPriorities {
     public double getConnectionPriority() {
         return connectionPriority;
     }
+
+    @Override
+    public String toString() {
+        return
+                "Priorities:\n"+
+                "generalPriority: " + generalPriority + "\n" +
+                        "specializedPriority: " + specializedPriority + "\n" +
+                        "skillPriority: " + skillPriority + "\n" +
+                        "connectionPriority: " + connectionPriority + "\n";
+    }
 }

@@ -18,24 +18,17 @@ public class GeneralInfo {
         //agr toolesh 10 bashe yani kamle formatesh kamele
         if (birth.length() == 10) {
             formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        }
-
-        else{
+        } else {
             //hala agar 9 taii bashe 2 halat dare ya mahesh 1 raghame ya rozesh
-            if (birth.length()==9)
-            {
-                if (birth.charAt(6)=='/')
-                {
+            if (birth.length() == 9) {
+                if (birth.charAt(6) == '/') {
                     formatter = DateTimeFormatter.ofPattern("yyyy/M/dd");
-                }
-                else
-                {
+                } else {
                     formatter = DateTimeFormatter.ofPattern("yyyy/MM/d");
                 }
             }
             //kolan kame khoda zadatesh
-            else
-            {
+            else {
                 formatter = DateTimeFormatter.ofPattern("yyyy/M/d");
             }
         }
@@ -77,11 +70,10 @@ public class GeneralInfo {
 
     @Override
     public String toString() {
-        return "GeneralInfo{" +
-                "ID=" + ID +
-                ", name='" + name + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", birth=" + birth +
-                '}';
+        return "GeneralInfo: \n" +
+                "ID: " + ID + "\n" +
+                "name: " + name + "\n" +
+                "lastname: " + lastname + "\n" +
+                "birth: " + birth + "\n";
     }
 }

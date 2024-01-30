@@ -2,32 +2,14 @@ package usersinfo;
 
 import implementations.Heap.MaxHeapPriorityQueue;
 
-import java.util.Comparator;
-import java.util.LinkedList;
-
 public class User {
     private GeneralInfo generalInfo;
     private UserSpecializedInfo specializedInfo;
     private UserSkills skills;
     private Connections connections;
     private UserPriorities priority;        //for calculating score of people
-    private MaxHeapPriorityQueue<Double, User> suggestions;
-    //key:ID  value:score
+    private Suggestion suggestions;
 
-
-    public User(GeneralInfo generalInfo, UserSpecializedInfo specializedInfo, UserSkills skills, Connections connections, UserPriorities priority, MaxHeapPriorityQueue<Double, User> suggestions, LinkedList<User> users) {
-        this.generalInfo = generalInfo;
-        this.specializedInfo = specializedInfo;
-        this.skills = skills;
-        this.connections = connections;
-        this.priority = priority;
-        this.suggestions = suggestions;
-
-        for (User user : users) {
-            findSuggestions(user);
-            if (this.suggestions.size() == 20) break;
-        }
-    }
 
     public User(GeneralInfo generalInfo, UserSpecializedInfo specializedInfo, UserSkills skills, Connections connections, UserPriorities priority) {
         this.generalInfo = generalInfo;
@@ -35,59 +17,8 @@ public class User {
         this.skills = skills;
         this.connections = connections;
         this.priority = priority;
-        this.suggestions = new MaxHeapPriorityQueue<>(new Comparator<Double>() {
-            @Override
-            public int compare(Double o1, Double o2) {
-                return o1.compareTo(o2);
-            }
-        });
     }
 
-    double generalCalculate(User user) {
-        int counter = 0;
-        //calculate generalInfo;
-        if (this.generalInfo.getLastname().equals(user.generalInfo.getLastname())) counter++;
-        if (this.generalInfo.getBirth().getYear() == user.generalInfo.getBirth().getYear()) counter++;
-
-        return (Math.pow(100,this.priority.getGeneralPriority()) * counter);
-    }
-
-    double specializedCalculate(User user) {
-        int counter = 0;
-        //calculate specializedInfo;
-
-        if (this.specializedInfo.getFieldOfStudy().equals(user.specializedInfo.getFieldOfStudy())) counter++;
-        if (this.specializedInfo.getUniversity().equals(user.specializedInfo.getUniversity())) counter++;
-        if (this.specializedInfo.getWorkPlace().equals(user.specializedInfo.getWorkPlace())) counter++;
-
-        return (Math.pow(100,this.priority.getSpecializedPriority())* counter);
-    }
-
-    double skillsCalculate(User user) {
-        int counter = 0;
-        //calculate skills;
-        for (String skill : this.skills.getSkills()) {
-            if (user.skills.getSkills().contains(skill)) counter++;
-        }
-
-        return (Math.pow(100,this.priority.getSkillPriority()) * counter);
-    }
-
-    double connectionsCalculate(User user) {
-        int counter = 0;
-        //calculate connections;
-        for (int connection : this.connections.getUsers()) {
-            if (user.connections.getUsers().contains(connection)) {
-                counter++;
-            }
-        }
-        return (Math.pow(100,this.priority.getConnectionPriority())* counter);
-    }
-
-    void findSuggestions(User user) {
-        double score = generalCalculate(user) + specializedCalculate(user) + skillsCalculate(user) + connectionsCalculate(user);   //sum all scores
-        this.suggestions.insert(score, user);
-    }
 
     public GeneralInfo getGeneralInfo() {
         return generalInfo;
@@ -130,21 +61,19 @@ public class User {
     }
 
     public MaxHeapPriorityQueue<Double, User> getSuggestions() {
-        return suggestions;
+        return this.suggestions.getSuggestions();
     }
 
-    public void setSuggestions(MaxHeapPriorityQueue<Double, User> suggestions) {
+    public void setSuggestions(Suggestion suggestions) {
         this.suggestions = suggestions;
     }
 
     @Override
     public String toString() {
-        return "{" +
-                "generalInfo=" + generalInfo.toString() +
-                ", specializedInfo=" + specializedInfo.toString() +
-                ", skills=" + skills.toString() +
-                ", connections=" + connections +
-                ", priority=" + priority.toString() +
-                '}';
+        return
+                generalInfo.toString() + "\n" +
+                        "SpecializedInfo:\n" + specializedInfo.toString() + "\n" +
+                        "Skills:\n" + skills.toString() + "\n" +
+                        "\n"+priority.toString() + "\n";
     }
 }

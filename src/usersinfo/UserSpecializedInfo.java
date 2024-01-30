@@ -37,10 +37,9 @@ public class UserSpecializedInfo {
 
     @Override
     public String toString() {
-        return "UserSpecializedInfo{" +
-                "university='" + university + '\'' +
-                ", fieldOfStudy='" + fieldOfStudy + '\'' +
-                ", workPlace='" + workPlace + '\'' +
-                '}';
+        return
+                "university: " + university + '\n' +
+                "fieldOfStudy: " + fieldOfStudy + '\n' +
+                "workPlace: " + workPlace + '\n';
     }
 }
