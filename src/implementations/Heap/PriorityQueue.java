@@ -10,5 +10,5 @@ interface PriorityQueue<K, V> {
 
     Entry<K, V> min();
 
-    V removeMin();
+    V removeMax();
 }

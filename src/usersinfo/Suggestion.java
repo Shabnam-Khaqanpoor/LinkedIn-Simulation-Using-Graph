@@ -21,9 +21,20 @@ public class Suggestion {
     }
 
 
-    void setSuggestions() {
-        for (User neighbor : ReadJson.Network.vertices()) {   //if neighbor is not her/his self and is not in her/his connections
-            if (!neighbor.equals(this.account) && !this.account.getConnections().getUsers().contains(neighbor)) findSuggestions(neighbor);
+    void setSuggestions() {       //suggest till 5 degree
+        for (User neighbor : this.account.getConnections().getUsers()) {
+            findSuggestionsRecursive(neighbor, 1);
+        }
+    }
+
+    void findSuggestionsRecursive(User user, int degree) {
+        if (degree > 5) {
+            return;
+        }
+
+        for (User suggest : user.getConnections().getUsers()) {
+            findSuggestions(suggest);
+            findSuggestionsRecursive(suggest, degree + 1);
         }
     }
 

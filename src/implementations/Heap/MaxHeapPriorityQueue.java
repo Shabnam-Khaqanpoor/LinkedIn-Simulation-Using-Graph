@@ -85,7 +85,7 @@ public class MaxHeapPriorityQueue<K, V> extends AbstractPriorityQueue<K, V> {
      * Removes and returns the maximum entry in the max heap.
      */
     @Override
-    public V removeMin() {
+    public V removeMax() {
         if (getHeap().isEmpty()) {
             return null;
         }
