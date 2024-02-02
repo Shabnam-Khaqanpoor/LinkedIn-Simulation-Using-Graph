@@ -1,6 +1,7 @@
 package file;
 
 import implementations.Graph.AdjacencyMapGraph;
+import implementations.Heap.MaxHeapPriorityQueue;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -9,13 +10,13 @@ import usersinfo.*;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class ReadJson {
+public class NetworkMaker {
 
-    public static AdjacencyMapGraph<User, Integer> Network = new AdjacencyMapGraph<User, Integer>();
-
+    public static AdjacencyMapGraph<User, Integer> network = new AdjacencyMapGraph<User, Integer>();
     public static void readFromJson() throws IOException, ParseException, org.json.simple.parser.ParseException {
 
 
@@ -57,16 +58,47 @@ public class ReadJson {
             for (Object connectionId : connectionIdsArray) {
                 connectionIdsList.add(Integer.valueOf((String) connectionId));
             }
-            Connections connections = new Connections(connectionIdsList);
+             Connections connections = new Connections(connectionIdsList);
             UserPriorities userPriorities = new UserPriorities();
 
             //add vertex with above attribute to  my graph
-            Network.insertVertex(new User(generalInfo, userSpecializedInfo, userSkills, connections, userPriorities));
+            network.insertVertex(new User(generalInfo, userSpecializedInfo, userSkills, connections, userPriorities));
         }
 
-        for (User user:Network.vertices()){          //set suggestions by calculate scores
+        for (User user: network.vertices()){          //set suggestions by calculate scores
            user.setSuggestions(new Suggestion(user));
+        }
+        //creating edges
+        createEdges();
+    }
+    //Create edges-------------------------------------------------------------
+    public static void createEdges()
+    {
+        int edge=0;
+        for (User user: network.vertices())
+        {
+            for (User follower:user.getConnections().getUsers())
+            {
+                network.insertEdge(user,follower,edge++);
+            }
         }
     }
 
+    //Get Popular User---------------------------------------------------------------------------------
+    public static MaxHeapPriorityQueue<Integer,User> getPopularUser()
+    {
+        MaxHeapPriorityQueue<Integer,User>myHeap=new MaxHeapPriorityQueue<Integer,User>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return   o1.compareTo(o2);
+            }
+        });
+
+        for (User user:NetworkMaker.network.vertices())
+        {
+            myHeap.insert(NetworkMaker.network.outDegree(user),user);
+        }
+        //return heap of all users popularity
+        return myHeap;
+    }
 }

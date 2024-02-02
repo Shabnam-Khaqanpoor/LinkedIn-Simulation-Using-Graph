@@ -68,6 +68,10 @@ public class User {
         this.suggestions = suggestions;
     }
 
+    public int getNumberOfConnection() {
+        return this.getConnections().getUsers().size();
+    }
+
     @Override
     public String toString() {
         return

@@ -1,14 +1,16 @@
 package usersinfo;
 
-import file.ReadJson;
+import file.NetworkMaker;
 import implementations.Heap.MaxHeapPriorityQueue;
 
 import java.util.Comparator;
+import java.util.LinkedList;
+
 
 public class Suggestion {
     private User account;
 
-    private MaxHeapPriorityQueue<Double, User> suggestions = new MaxHeapPriorityQueue<>(new Comparator<Double>() {
+    private MaxHeapPriorityQueue<Double, User> suggestions=new MaxHeapPriorityQueue<>(new Comparator<Double>() {
         @Override
         public int compare(Double o1, Double o2) {
             return o1.compareTo(o2);
@@ -16,13 +18,21 @@ public class Suggestion {
     });
 
     public Suggestion(User account) {
-        this.account = account;
-        setSuggestions();
+            this.account = account;
+
+            if (account.getConnections().getUsers().size()>0) {
+                setSuggestions(this.account.getConnections().getUsers());
+            }
+            else
+            {
+                suggestForNewUsers();
+            }
+
     }
 
+    void setSuggestions(LinkedList<User>connections) {       //suggest till 5 degree
 
-    void setSuggestions() {       //suggest till 5 degree
-        for (User neighbor : this.account.getConnections().getUsers()) {
+        for (User neighbor : connections) {
             findSuggestionsRecursive(neighbor, 1);
         }
     }
@@ -75,11 +85,15 @@ public class Suggestion {
     double connectionsCalculate(User oppositeUser) {
         int counter = 0;
         //calculate connections;
-        for (int connection : this.account.getConnections().getUsersID()) {
-            if (oppositeUser.getConnections().getUsersID().contains(connection)) {
-                counter++;
+        if (this.account.getConnections().getUsers().size()>0)
+        {
+            for (int connection : this.account.getConnections().getUsersID()) {
+                if (oppositeUser.getConnections().getUsersID().contains(connection)) {
+                    counter++;
+                }
             }
         }
+
         return (Math.pow(100, this.account.getPriority().getConnectionPriority()) * counter);
     }
 
@@ -102,5 +116,12 @@ public class Suggestion {
 
     public void setSuggestions(MaxHeapPriorityQueue<Double, User> suggestions) {
         this.suggestions = suggestions;
+    }
+
+    public void suggestForNewUsers()
+    {
+        for (User neighbor : NetworkMaker.network.vertices()) {   //if neighbor is not her/his self and is not in her/his connections
+            if (!neighbor.equals(this.account)) findSuggestions(neighbor);
+        }
     }
 }
